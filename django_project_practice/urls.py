@@ -16,12 +16,18 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+# http://127.0.0.1:8000/
+
 
 # url -> ~/patterns 로 보냄
 # ex) http://127.0.01:8000/admin -> ...
 # path("blog/", admin.site.urls), -> http://127.0.01:8000/blog -> ...
 # http://127.0.01:8000/blog -> ...
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('', include('single_pages.urls')),
+    path('blog/', include('blog.urls')),
 ]

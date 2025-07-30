@@ -10,5 +10,8 @@ class Post(models.Model):
     def __str__(self):
         return f'post title : {self.title}\ncontent : {self.content}'
     
+    def get_absolute_url(self):
+        return f'/blog/{self.pk}/'  # return url 지정
+        # return reverse("model_detail", kwargs={"pk": self.pk})
     
         

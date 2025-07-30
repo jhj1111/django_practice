@@ -9,7 +9,9 @@
     전체글 리스트<br>
     posts - post 리스트
     {% for post in posts %}
-        <h2>{{ post.title }}</h2>
+        <h1>{{ post }}</h1>
+        <h2><a href="/blog/{{ post.pk }}">제목 html 하드코딩 : {{ post.title }}</h2></a>
+        <h2><a href={{ post.get_absolute_url }}>제목_함수 이용 : {{ post.title }}</h2></a>
         <h3>{{ post.content }}</h3>
         <h5>{{ post.create_date }}</h5>
         <hr>

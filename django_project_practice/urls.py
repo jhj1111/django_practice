@@ -18,6 +18,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+# url -> ~/patterns 로 보냄
+# ex) http://127.0.01:8000/admin -> ...
+# path("blog/", admin.site.urls), -> http://127.0.01:8000/blog -> ...
+# http://127.0.01:8000/blog -> ...
 urlpatterns = [
     path("admin/", admin.site.urls),
 ]

@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.shortcuts import redirect   # 주소 변경
 from .models import Post
 from .forms import PostForm
+from django.http import HttpResponse
+import os
+from django.conf import settings
+# from django_project_practice import settings
 
 # Create your views here.
 def index(request):
@@ -14,14 +18,17 @@ def index(request):
                   )
     
 def detail(request, pk):
-    posts_page_list = Post.objects.get(pk=pk)
+    posts_pk_list = Post.objects.get(pk=pk)
+    
     
     return render(request,
                   template_name='blog/detail.html',
-                  context={'post_page' : posts_page_list})
+                  context={'post_pk' : posts_pk_list},
+                  )
     
 def create(request):
     if request.method == 'POST':    # 제출 버튼 
+        # postform = PostForm(request.POST, request.FILES)
         postform = PostForm(request.POST, request.FILES)
         
         if postform.is_valid(): # 작성 도중 제출 버튼 누른경우
@@ -52,3 +59,16 @@ def createfake(request):
     
     return redirect('/blog/')
     # return redirect('index')
+
+def file_download(request):
+    path = request.GET['path']
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+ 
+    if os.path.exists(file_path):
+        binary_file = open(file_path, 'rb')
+        response = HttpResponse(binary_file.read(), content_type="application/octet-stream; charset=utf-8")
+        response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(file_path)
+        return response
+    else:
+        message = '알 수 없는 오류가 발행하였습니다.'
+        return HttpResponse("<script>alert('"+ message +"');history.back()'</script>")

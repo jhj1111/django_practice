@@ -71,7 +71,7 @@
     </div>
     </div>
 
-    {% comment %} {{ post_page }} {% endcomment %}
+    {% comment %} {{ post_pk }} {% endcomment %}
     {% comment %} <a href='/blog/'><h2>글목록</h2></a>
     <h5>글 상세 내용</h5><br> {% endcomment %}
 
@@ -84,19 +84,24 @@
                         <!-- Post header-->
                         <header class="mb-4">
                             <!-- Post title-->
-                            <h1 class="fw-bolder mb-1">{{ post_page.title }}</h1>
+                            <h1 class="fw-bolder mb-1">{{ post_pk.title }}</h1>
                             <!-- Post meta content-->
-                            <div class="text-muted fst-italic mb-2">{{ post_page.create_date }}</div>
+                            <div class="text-muted fst-italic mb-2">{{ post_pk.create_date }}</div>
                             <!-- Post categories-->
                             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
                             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
                         </header>
                         <!-- Preview image figure-->
                         {% comment %} <figure class="mb-4"><img class="img-fluid rounded" src="https://i.namu.wiki/i/abZPxKt_L98I8ttqw56pLHtGiR5pAV4YYmpR3Ny3_n0yvff5IDoKEQFof7EbzJUSZ_-uzR5S7tzTzGQ346Qixw.webp" alt="..." /></figure> {% endcomment %}
-                        {% if post_page.uploaded_image %}
-                            <figure class="mb-4"><img class="img-fluid rounded" src="{{ post_page.uploaded_image.url }}" alt="..." /></figure>
+                        {% if post_pk.uploaded_image %}
+                            <figure class="mb-4"><img class="img-fluid rounded" src="{{ post_pk.uploaded_image.url }}" alt="..." /></figure>
+                            <a href="{% url 'file_download' %}?path={{ post_pk.uploaded_image }}">{{ post_pk.uploaded_image }}</a>
                         {% else %} 
                             <figure class="mb-4"><img class="img-fluid rounded" src="https://i.namu.wiki/i/abZPxKt_L98I8ttqw56pLHtGiR5pAV4YYmpR3Ny3_n0yvff5IDoKEQFof7EbzJUSZ_-uzR5S7tzTzGQ346Qixw.webp" alt="..." /></figure>
+                        {% endif %}
+                        
+                        {% if post_pk.uploaded_file %}
+                            <a href="{% url 'file_download' %}?path={{ post_pk.uploaded_file }}">{{ post_pk.uploaded_file.name }}</a>
                         {% endif %}
                         <!-- Post content-->
                         <section class="mb-5">
@@ -106,8 +111,8 @@
                             <h2 class="fw-bolder mb-4 mt-5">I have odd cosmic thoughts every day</h2>
                             <p class="fs-5 mb-4">For me, the most fascinating interface is Twitter. I have odd cosmic thoughts every day and I realized I could hold them to myself or share them with people who might be interested.</p>
                             <p class="fs-5 mb-4">Venus has a runaway greenhouse effect. I kind of want to know what happened there because we're twirling knobs here on Earth without knowing the consequences of it. Mars once had running water. It's bone dry today. Something bad happened there as well.</p> {% endcomment %}
-                            {{ post_page.content }}
-                            {{ post_page }}
+                            {{ post_pk.content }}
+                            {{ post_pk }}
                         </section>
                     </article>
                     <!-- Comments section-->

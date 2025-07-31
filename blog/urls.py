@@ -5,4 +5,6 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'), # 127.0.0.1:8000/blog/
     path('<int:pk>/', views.detail, name='pk'), # 127.0.0.1:8000/blog/{pk}/
+    path('create/', views.create, name='create'), # 127.0.0.1:8000/blog/create/
+    path('createfake/', views.createfake, name='createfake'), # 127.0.0.1:8000/blog/createfake/
 ]

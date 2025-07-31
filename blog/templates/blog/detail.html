@@ -95,7 +95,7 @@
                         {% comment %} <figure class="mb-4"><img class="img-fluid rounded" src="https://i.namu.wiki/i/abZPxKt_L98I8ttqw56pLHtGiR5pAV4YYmpR3Ny3_n0yvff5IDoKEQFof7EbzJUSZ_-uzR5S7tzTzGQ346Qixw.webp" alt="..." /></figure> {% endcomment %}
                         {% if post_pk.uploaded_image %}
                             <figure class="mb-4"><img class="img-fluid rounded" src="{{ post_pk.uploaded_image.url }}" alt="..." /></figure>
-                            <a href="{% url 'file_download' %}?path={{ post_pk.uploaded_image }}">{{ post_pk.uploaded_image }}</a>
+                            <a href="/blog/download?path={{ post_pk.uploaded_image }}">{{ post_pk.uploaded_image }}</a>
                         {% else %} 
                             <figure class="mb-4"><img class="img-fluid rounded" src="https://i.namu.wiki/i/abZPxKt_L98I8ttqw56pLHtGiR5pAV4YYmpR3Ny3_n0yvff5IDoKEQFof7EbzJUSZ_-uzR5S7tzTzGQ346Qixw.webp" alt="..." /></figure>
                         {% endif %}

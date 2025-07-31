@@ -17,6 +17,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from django_project_practice import settings
 # http://127.0.0.1:8000/
 
 
@@ -32,3 +34,5 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('library/', include('library.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

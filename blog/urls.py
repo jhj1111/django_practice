@@ -7,4 +7,5 @@ urlpatterns = [
     path('<int:pk>/', views.detail, name='pk'), # 127.0.0.1:8000/blog/{pk}/
     path('create/', views.create, name='create'), # 127.0.0.1:8000/blog/create/
     path('createfake/', views.createfake, name='createfake'), # 127.0.0.1:8000/blog/createfake/
+    path('download/', views.file_download, name='file_download'), # 127.0.0.1:8000/blog/file_download/
 ]

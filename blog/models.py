@@ -4,13 +4,16 @@ from django.db import models
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    create_date = models.DateTimeField()
+    create_date = models.DateTimeField(auto_created=True, null=True)
     updated_date = models.DateTimeField(auto_now=True, null=True)
-    
+    uploaded_image = models.ImageField(upload_to='images/', null=True)
     
     def __str__(self):
-        list_str = ['제목', '내용', '생성일', '변경일']
-        list_var = [self.title, self.content, self.create_date, self.updated_date]
+        try : image_path = self.uploaded_image.url
+        except ValueError : image_path = None
+        
+        list_str = ['제목', '내용', '생성일', '변경일', '이미지 경로']
+        list_var = [self.title, self.content, self.create_date, self.updated_date, image_path]
         
         # return f'post title : {self.title}\ncontent : {self.content} updated : {self.updated_date}'
         return '\n'.join([f'{i} : {j}' for i,j in zip(list_str, list_var)])
@@ -19,4 +22,4 @@ class Post(models.Model):
         return f'/blog/{self.pk}/'  # return url 지정
         # return reverse("model_detail", kwargs={"pk": self.pk})
     
-        
+    

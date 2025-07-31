@@ -8,3 +8,9 @@ def landing(request):
     return render(request, 
                   template_name='single_pages/landing.html'
                   )
+
+def about(request):
+    
+    return render(request, 
+                  template_name='single_pages/about.html'
+                  )

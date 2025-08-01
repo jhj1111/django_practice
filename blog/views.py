@@ -1,32 +1,57 @@
 from django.shortcuts import render
 from django.shortcuts import redirect   # 주소 변경
-from .models import Post
+from .models import Post, Category
 from .forms import PostForm
 from django.http import HttpResponse
 import os
 from django.conf import settings
 # from django_project_practice import settings
 
+posts_total_list = Post.objects.all().order_by('-pk') # db SELECT * FROM POST ... ASC
+category_total_list = Category.objects.all() # db SELECT * FROM POST ... ASC
+context = {'posts':posts_total_list,
+            'categories' : category_total_list,
+            }
+
 # Create your views here.
 def index(request):
     # posts_total_list = Post.objects.all() # db SELECT * FROM POST
-    posts_total_list = Post.objects.all().order_by('-pk') # db SELECT * FROM POST ... ASC
     
     return render(request, 
                   template_name='blog/index.html',
-                  context={'posts':posts_total_list},
+                  context=context
                   )
     
 def detail(request, pk):
     posts_pk_list = Post.objects.get(pk=pk)
+    category_total_list = Category.objects.all() # db SELECT * FROM POST ... ASC
     
     
     return render(request,
                   template_name='blog/detail.html',
-                  context={'post_pk' : posts_pk_list},
+                  context={'post_pk':posts_pk_list,
+                        'categories' : category_total_list,
+                        }
+                  )
+    
+def categories(request, slug):
+    if slug=='0':
+        category_posts = Post.objects.filter(category=None)
+        posts_category = ''
+    else :
+        posts_category = Category.objects.get(slug=slug)
+        category_posts = Post.objects.filter(category=posts_category)
+    
+    return render(request,
+                  template_name='blog/categories.html',
+                  context={'category_posts':category_posts,
+                           'category' : posts_category,
+                           'categories' : category_total_list,
+                            },
                   )
     
 def create(request):
+    category_total_list = Category.objects.all() # db SELECT * FROM POST ... ASC
     if request.method == 'POST':    # 제출 버튼 
         # postform = PostForm(request.POST, request.FILES)
         postform = PostForm(request.POST, request.FILES)
@@ -48,7 +73,9 @@ def create(request):
     
     return render(request,
                   template_name='blog/postform.html',
-                  context={'postform' : postform},
+                  context={'postform' : postform,
+                           'categories' : category_total_list,
+                           },
                   )
 
 def createfake(request):

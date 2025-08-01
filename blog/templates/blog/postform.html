@@ -1,10 +1,25 @@
-<html lang='ko'>
-    <body>
-        <form action='' method='post', enctype='multipart/form-data'>
-            {% csrf_token %}
-            {{ postform }}
-            <input type='submit'>
-            
-        </form>
-    </body>
+{% extends "_layout/default.html" %}
+{% load static %}
 
+<!-- header -->
+{% block header-msg %}
+<h1 class="fw-bolder">Welcome to Blog Home!</h1>
+<p class="lead mb-0">A Bootstrap 5 starter layout for your next blog homepage</p>
+{% endblock %}
+
+<!-- content -->
+{% block content %}
+    <form action='' method='post', enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{ postform }}
+        <input type='submit'>
+    </form>
+{% endblock %}
+
+<!-- side widget -->
+{% block side-category %}
+    <!-- category "Side widget" -->
+    <div class="card mb-4">
+        <div class="card-header">Side Widget</div>
+    </div>
+{% endblock %}

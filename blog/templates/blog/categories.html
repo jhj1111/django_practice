@@ -1,0 +1,41 @@
+{% extends "_layout/default.html" %}
+{% load static %}
+
+<!-- header -->
+{% block header-msg %}
+    <h1 class="fw-bolder">Categories</h1>
+    <p class="lead mb-0">post categories</p>
+{% endblock %}
+
+<!-- content -->
+{% block content %}
+    <!-- content -->
+    {% if not category %}
+        <h1>no category</h1>
+    {% else %}
+        <h1>{{ category.name }}</h1>
+    {% endif %}
+    
+    {% for post in category_posts %}
+        <h2 class="card-title">{{ post.title }}</h2>
+
+        <!-- Featured blog post-->
+        <div class="card mb-4">
+            {% if post.uploaded_image %}
+                <a href="{{ post.get_absolute_url }}"><img class="card-img-top" src={{ post.uploaded_image.url }} alt="..." /></a>
+            {% else %}
+                <a href="{{ post.get_absolute_url }}"><img class="card-img-top" src={% static "blog/images/image.png" %} alt="..." /></a>
+            {% endif %}
+
+            {% if post.category %}
+               <div class="card-body">
+                    <a href=""><button class="btn btn-primary" type="button">{{ post.category.name }}</button></a><br>
+                <a class="btn btn-primary" href="{{ post.get_absolute_url }}">Read more →</a>
+            </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
+
+<!-- side widget -->
+{% block side-category %}글쓰기{% endblock %}

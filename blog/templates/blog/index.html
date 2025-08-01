@@ -1,6 +1,15 @@
-{% extends "blog/base.html" %}
-{% block main-area %}
+{% extends "_layout/default.html" %}
 {% load static %}
+
+<!-- header -->
+{% block header-msg %}
+    <h1 class="fw-bolder">Welcome to Blog Home!</h1>
+    <p class="lead mb-0">A Bootstrap 5 starter layout for your next blog homepage</p>
+{% endblock %}
+
+<!-- content -->
+{% block content %}
+    <!-- content -->
     {% for post in posts%}
     <!-- Featured blog post-->
     <div class="card mb-4">
@@ -9,6 +18,8 @@
             <div class="small text-muted">{{ post.create_date }}</div>
             <h2 class="card-title">{{ post.title }}</h2>
             <p class="card-text">{{ post.content }}</p>
+            <p class="card-text">{{ post.author }}</p>
+            <p class="card-text">{{ post.author.last_name }}</p>
             <a class="btn btn-primary" href="{{ post.get_absolute_url }}">Read more →</a>
         </div>
     </div>
@@ -27,4 +38,13 @@
             <li class="page-item"><a class="page-link" href="#!">Older</a></li>
         </ul>
     </nav>
+{% endblock %}
+
+<!-- side widget -->
+{% block side-category %}
+    <!-- category "Side widget" -->
+    <div class="card mb-4">
+        <div class="card-header">Side Widget</div>
+        <a href="/blog/create/"><button class="btn btn-primary" type="button">글쓰기</button></a>
+    </div>
 {% endblock %}

@@ -13,13 +13,22 @@
     {% for post in posts%}
     <!-- Featured blog post-->
     <div class="card mb-4">
-        <a href="{{ post.get_absolute_url }}"><img class="card-img-top" src={% static "blog/images/image.png" %} alt="..." /></a>
+        {% if post.uploaded_image %}
+            <a href="{{ post.get_absolute_url }}"><img class="card-img-top" src={{ post.uploaded_image.url }} alt="..." /></a>
+        {% else %}
+            <a href="{{ post.get_absolute_url }}"><img class="card-img-top" src={% static "blog/images/image.png" %} alt="..." /></a>
+        {% endif %}
+        
         <div class="card-body">
             <div class="small text-muted">{{ post.create_date }}</div>
             <h2 class="card-title">{{ post.title }}</h2>
+            <h3 class="card-title">{{ post.category.name }}</h3>
             <p class="card-text">{{ post.content }}</p>
             <p class="card-text">{{ post.author }}</p>
             <p class="card-text">{{ post.author.last_name }}</p>
+            {% if post.category %}
+                <a href=""><button class="btn btn-primary" type="button">{{ post.category.name }}</button></a><br>
+            {% endif %}
             <a class="btn btn-primary" href="{{ post.get_absolute_url }}">Read more →</a>
         </div>
     </div>
@@ -41,10 +50,4 @@
 {% endblock %}
 
 <!-- side widget -->
-{% block side-category %}
-    <!-- category "Side widget" -->
-    <div class="card mb-4">
-        <div class="card-header">Side Widget</div>
-        <a href="/blog/create/"><button class="btn btn-primary" type="button">글쓰기</button></a>
-    </div>
-{% endblock %}
+{% block side-category %}글쓰기{% endblock %}

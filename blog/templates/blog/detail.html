@@ -21,9 +21,14 @@
                         <div class="text-muted fst-italic mb-2">{{ post_pk.create_date }}</div>
                         <div class="text-muted fst-italic mb-2">{{ post_pk.author }}</div>
                         <div class="text-muted fst-italic mb-2">{{ post_pk.author.last_name }}</div>
+
                         <!-- Post categories-->
-                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                        {% if post_pk.category %}
+                            <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{ post_pk.category.name }}</a>
+                        {% else %}
+                            <a class="badge bg-secondary text-decoration-none link-light" href="#!">no category</a>
+                        {% endif %}
+
                     </header>
                     <!-- Preview image figure-->
                     {% comment %} <figure class="mb-4"><img class="img-fluid rounded" src="https://i.namu.wiki/i/abZPxKt_L98I8ttqw56pLHtGiR5pAV4YYmpR3Ny3_n0yvff5IDoKEQFof7EbzJUSZ_-uzR5S7tzTzGQ346Qixw.webp" alt="..." /></figure> {% endcomment %}
@@ -98,13 +103,7 @@
 {% endblock %}
 
 <!-- side widget -->
-{% block side-category %}
-    <!-- category "Side widget" -->
-    <div class="card mb-4">
-        <div class="card-header">Side Widget</div>
-        <a href="/blog/create/"><button class="btn btn-primary" type="button">글쓰기</button></a>
-    </div>
-{% endblock %}
+{% block side-category %}글쓰기{% endblock %}
 
 
 <!-- Bootstrap core JS-->

@@ -62,3 +62,19 @@ class Post(models.Model):
         except ValueError : image_url = None
         
         return image_url
+    
+    
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    # post = models.ForeignKey(Post, on_delete=models.SET_NULL)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_date = models.DateField(auto_now_add=True,
+                                    null=True,
+                                    )
+    updated_date = models.DateTimeField(auto_now_add=True,
+                                        null=True,
+                                        )
+    
+    def __str__(self):
+        return super().__str__()

@@ -2,9 +2,113 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>Wel?come?</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
-    single_pages
+    <h1>page home</h1>
+    <script>
+        // CSRF 토큰 가져오기 함수
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // 쿠키 이름 찾기
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+
+        alert('jQuery alert msg');
+        $(document).ready(function (){
+            getPostList();
+        });
+
+        function getPostList(){
+            $('#postList').empty();
+            $.ajax(
+                {
+                    url     : "{% url 'blogAPI' %}",
+                    type    : "GET",
+                    success : function(data){
+                        console.log(data);
+                        let list = data;
+                        $(list).each(function(){
+                            console.log(this);
+                            console.log("***");
+                            let str = '';
+                            str += '<div>';
+                            str += this.title + "\n";
+                            str += this.author + "\n";
+                            str += this.content + "\n";
+                            str += '</div>';
+                            str += '<hr>';
+                            $('#postList').append(str);
+                            
+                        })
+                        alert("success 글 불러오기");
+                    },
+                    error   : function(){
+                        alert("error 글 불러오기");
+                    }
+                }
+            )
+        };
+
+        $(document).ready(function(){
+            $('#postAddBtn').click(function(){
+                const post = {
+                    title   : $('#title').val(),
+                    author  : $('#author').val(),
+                    content : $('#content').val()
+                };
+                $.ajax(
+                    {
+                        url         : "{% url 'blogAPI' %}",
+                        type        : "POST",
+                        contentType : "application/json",
+                        data        : JSON.stringify(post),
+                        headers     : {'X-CSRFToken' : csrftoken},
+                        success     : function(data){
+                            console.log(data);
+                            alert("글 삽입 성공");
+
+                            $('#title').val('');
+                            $('#author').val('');
+                            $('#content').val('');
+                            getPostList();
+                        },
+                        error       : function(xhr){
+                            console.log(JSON.stringify(xhr.responseJSON));
+                            alert("글 삽입 실패");
+                        }
+                    }
+                )
+            }
+        );
+        
+    })
+
+    </script>
+
+    <h2>새 글 작 성</h2>
+    <form id='postform'>
+        <input type='text' id='title' placeholder='title' required><br>
+        <input type='text' id='author' placeholder='author' required><br>
+        <input type='text' id='content' placeholder='content' required><br>
+        <input type='button' value='만들기' id='postAddBtn'>
+    </form>
+    <div id="result"></div>
+
+    <h2>글 목 록</h2>
+    <div id="postList"></div>
 </body>
 </html>
